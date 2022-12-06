@@ -4,31 +4,164 @@
     <title>Diamond Game</title>
     <style>
     .vl {
-        border-left: 6px solid green;
+        border-left: 6px solid gray;
         height: 40px;
         width: 0px;
+        display: inline-block;
+        margin-bottom: 6px;
+        margin-top: 0;
     }
     .vl:hover {
         border-left: 6px solid red;
     }
     .hl {
-        border-top: 6px solid green;
+        border-top: 6px solid gray;
         height: 0px;
         width: 40px;
+        display: inline-block;
     }
     .hl:hover {
         border-top: 6px solid red;
+    }
+    .cell {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 1px solid black;
+    }
+    .game-row {
+        display: inline-block;
+        width: 100%;
+        /* center block and content */
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        vertical-align: middle;
     }
     </style>
         
         
 </head>
 <body>
-    <div style="display: block; margin-left: auto; margin-right: auto; width: 30%; text-align: center;">
+    <div class="game-row">
+        <div class="hl"></div>
+    </div>
+    <div class="game-row">
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+    </div>
+    <div class="game-row">
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
         <div class="vl"></div> 
         <div class="hl"></div>
         <div class="vl"></div> 
         <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+    </div>
+    <div class="game-row">
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+    </div>
+    <div class="game-row">
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+    </div>
+    <div class="game-row">
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+    </div>
+    <div class="game-row"> 
+        <div class="vl"></div> 
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+    </div>
+    <div class="game-row"> 
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+    </div>
+    <div class="game-row"> 
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
+    </div>
+    <div class="game-row"> 
+        <div class="vl"></div>
+        <div class="hl"></div>
+        <div class="vl"></div>
     </div>
 </body>
 </html> 
