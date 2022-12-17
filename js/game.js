@@ -9,11 +9,11 @@ window.onload = function () {
 
     var longestLineCells = 9;
 
-    var canvasSize = 800;
+    var canvasSize = 600;
     var sectionSize = canvasSize / longestLineCells;
-    canvas.width = canvasSize;
-    canvas.height = canvasSize;
-    // context.translate(0.5, 0.5);
+    canvas.width = canvasSize + 4;
+    canvas.height = canvasSize + 4;
+    context.translate(2, 2);
 
     function drawCellsInRhomb () {
         context.strokeStyle = "#ddd";
