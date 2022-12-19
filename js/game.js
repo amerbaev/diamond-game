@@ -83,6 +83,7 @@ window.onload = function () {
     }
 
     drawRhomb();
+    
 
     function drawO(xCordinate, yCordinate) {
         var halfSectionSize = (0.5 * sectionSize);
@@ -129,8 +130,66 @@ window.onload = function () {
             drawO(0, 0);
         }
     }
+    
+    drawLine(sectionSize, sectionSize * 4, sectionSize, sectionSize * 5);
+    drawX(0, sectionSize * 4);
+    changePlayer();
+    drawLine(sectionSize * 4, sectionSize, sectionSize * 5, sectionSize);
+    drawO(sectionSize * 4, 0);
+    changePlayer();
+    drawLine(sectionSize * 8, sectionSize * 4, sectionSize * 8, sectionSize * 5);
+    drawX(sectionSize * 8, sectionSize * 4);
+    changePlayer();
+    drawLine(sectionSize * 4, sectionSize * 8, sectionSize * 5, sectionSize * 8);
+    drawO(sectionSize * 4, sectionSize * 8);
 
     onmouseup = function (e) {
+        var x = e.pageX;
+        var y = e.pageY;
+        console.log(x, y);
+       
+        var nearX = nearestBorder(x);
+        var nearY = nearestBorder(y);
+        var horizontal = Math.abs(x - nearX) > Math.abs(y - nearY);
+        if (horizontal) {
+            if (x > nearX) {
+                drawLine(nearX, nearY, nearX+sectionSize, nearY);
+            } else {
+                drawLine(nearX, nearY, nearX-sectionSize, nearY);
+            }  
+        } else {
+            if (y > nearY) {
+                drawLine(nearX, nearY, nearX, nearY+sectionSize);
+            } else {
+                drawLine(nearX, nearY, nearX, nearY-sectionSize);
+            }
+        }
+
         changePlayer();
+    }
+
+    function nearestBorder(p) {
+        for (var i = 0; i < longestLineCells; i++) {
+            var border = sectionSize * i;
+            if (p < border) {
+                if (i == longestLineCells - 1) {
+                    return border;
+                }
+                var prevBorder = sectionSize * (i-1);
+                if (p - prevBorder < border - p) {
+                    return prevBorder;
+                }
+                return border;
+            }
+        }
+    }
+
+    function drawLine(x1, y1, x2, y2) {
+        context.strokeStyle = playerColor;
+        context.lineWidth = 5;
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
     }
 };
