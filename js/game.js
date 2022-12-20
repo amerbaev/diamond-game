@@ -49,7 +49,6 @@ window.onload = function () {
         context.beginPath();
 
         for (var x = 0; x <= longestLineCells; x++) {
-            
             var upperFrom = sectionSize * 4; 
             if (x < longestLineCells / 2) {
                 var fromLeft = upperFrom - sectionSize * (x-1);
@@ -63,7 +62,6 @@ window.onload = function () {
 
                 var fromLeft = upperFrom - sectionSize * (longestLineCells - x);
                 var fromRight = upperFrom + sectionSize * (longestLineCells - x+1);
-                
             }
             context.moveTo(fromLeft, sectionSize * x);
             context.lineTo(toLeft, sectionSize * x);
@@ -83,7 +81,35 @@ window.onload = function () {
     }
 
     drawRhomb();
-    
+    var gameMatrix = {
+        horizontal: [],
+        vertical: []
+    }
+    function initGameMatrix(gameMatrix) {
+        for (var i = 0; i <= longestLineCells; i++) {
+            gameMatrix.horizontal.push(Array(longestLineCells).fill(true));
+        }
+
+        for (var i = 0; i < longestLineCells; i++) {
+            gameMatrix.vertical.push(Array(longestLineCells + 1).fill(true));
+        }
+        
+        for (var i = 0; i < longestLineCells; i++) {
+            if (i < longestLineCells / 2) {
+                for (var j = 5 - i; j < 4 + i; j++) {
+                    gameMatrix.horizontal[i][j] = false;
+                    gameMatrix.vertical[j][i] = false;
+                }
+            } else {
+                for (var j = 5 - (longestLineCells - i); j < 4 + (longestLineCells - i); j++) {
+                    gameMatrix.horizontal[i][j] = false;
+                    gameMatrix.vertical[j][i] = false;
+                }
+            }
+        }
+    }
+    initGameMatrix(gameMatrix);
+    console.log(gameMatrix);
 
     function drawO(xCordinate, yCordinate) {
         var halfSectionSize = (0.5 * sectionSize);
@@ -133,37 +159,72 @@ window.onload = function () {
     
     drawLine(sectionSize, sectionSize * 4, sectionSize, sectionSize * 5);
     drawX(0, sectionSize * 4);
+    gameMatrix.vertical[4][1] = true;
     changePlayer();
     drawLine(sectionSize * 4, sectionSize, sectionSize * 5, sectionSize);
     drawO(sectionSize * 4, 0);
+    gameMatrix.horizontal[1][4] = true;
     changePlayer();
     drawLine(sectionSize * 8, sectionSize * 4, sectionSize * 8, sectionSize * 5);
     drawX(sectionSize * 8, sectionSize * 4);
+    gameMatrix.vertical[4][8] = true;
     changePlayer();
     drawLine(sectionSize * 4, sectionSize * 8, sectionSize * 5, sectionSize * 8);
     drawO(sectionSize * 4, sectionSize * 8);
+    gameMatrix.horizontal[8][4] = true;
+    changePlayer();
+
+    function takeHorizontal(x, y) {
+        if (gameMatrix.horizontal[x][y]) {
+            return false;
+        }
+        gameMatrix.horizontal[x][y] = true;
+        return true;
+    }
+
+    function takeVertical(x, y) {
+        if (gameMatrix.vertical[x][y]) {
+            return false;
+        }
+        gameMatrix.vertical[x][y] = true;
+        return true;
+    }
 
     onmouseup = function (e) {
         var x = e.pageX;
         var y = e.pageY;
-        console.log(x, y);
        
         var nearX = nearestBorder(x);
         var nearY = nearestBorder(y);
         var horizontal = Math.abs(x - nearX) > Math.abs(y - nearY);
+        var xSection = nearX / sectionSize;
+        var ySection = nearY / sectionSize;
         if (horizontal) {
             if (x > nearX) {
+                if (!takeHorizontal(xSection, ySection)) {
+                    return;
+                }
                 drawLine(nearX, nearY, nearX+sectionSize, nearY);
             } else {
+                if (!takeHorizontal(xSection, ySection - 1)) {
+                    return;
+                }
                 drawLine(nearX, nearY, nearX-sectionSize, nearY);
             }  
         } else {
             if (y > nearY) {
+                if (!takeVertical(xSection, ySection)) {
+                    return;
+                }
                 drawLine(nearX, nearY, nearX, nearY+sectionSize);
             } else {
+                if (!takeVertical(xSection - 1, ySection)) {
+                    return;
+                }
                 drawLine(nearX, nearY, nearX, nearY-sectionSize);
             }
         }
+        console.log(gameMatrix);
 
         changePlayer();
     }
