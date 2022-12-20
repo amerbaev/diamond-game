@@ -1,9 +1,6 @@
 'use strict';
 
 window.onload = function () {
-    var player = 1;
-    var lineColor = "#ddd";
-
     var canvas = document.getElementById('gamefield');
     var context = canvas.getContext('2d');
 
