@@ -12,21 +12,21 @@ window.onload = function () {
     canvas.height = canvasSize + 4;
     context.translate(2, 2);
 
-    function drawCellsInRhomb () {
+    function drawCellsInRhomb() {
         context.strokeStyle = "#ddd";
         context.lineWidth = 5;
         context.beginPath();
 
         for (var x = 1; x < longestLineCells; x++) {
-            var upperFrom = sectionSize * 4; 
+            var upperFrom = sectionSize * 4;
             if (x < longestLineCells / 2) {
-                var left = upperFrom - sectionSize * (x-1);
+                var left = upperFrom - sectionSize * (x - 1);
                 var right = upperFrom + sectionSize * x;
             } else {
-                var left = upperFrom - sectionSize * (longestLineCells-x-1);
+                var left = upperFrom - sectionSize * (longestLineCells - x - 1);
                 var right = upperFrom + sectionSize * (longestLineCells - x);
             }
-            
+
             context.moveTo(left, sectionSize * x);
             context.lineTo(right, sectionSize * x);
 
@@ -39,26 +39,26 @@ window.onload = function () {
 
     drawCellsInRhomb();
 
-    function drawRhomb () {
+    function drawRhomb() {
         context.strokeStyle = "#000";
         context.lineWidth = 5;
         context.lineCap = "round";
         context.beginPath();
 
         for (var x = 0; x <= longestLineCells; x++) {
-            var upperFrom = sectionSize * 4; 
+            var upperFrom = sectionSize * 4;
             if (x < longestLineCells / 2) {
-                var fromLeft = upperFrom - sectionSize * (x-1);
+                var fromLeft = upperFrom - sectionSize * (x - 1);
                 var fromRight = upperFrom + sectionSize * x;
 
                 var toLeft = upperFrom - sectionSize * x;
-                var toRight = upperFrom + sectionSize * (x+1);
+                var toRight = upperFrom + sectionSize * (x + 1);
             } else {
-                var toLeft = upperFrom - sectionSize * (longestLineCells-x-1);
+                var toLeft = upperFrom - sectionSize * (longestLineCells - x - 1);
                 var toRight = upperFrom + sectionSize * (longestLineCells - x);
 
                 var fromLeft = upperFrom - sectionSize * (longestLineCells - x);
-                var fromRight = upperFrom + sectionSize * (longestLineCells - x+1);
+                var fromRight = upperFrom + sectionSize * (longestLineCells - x + 1);
             }
             context.moveTo(fromLeft, sectionSize * x);
             context.lineTo(toLeft, sectionSize * x);
@@ -67,11 +67,11 @@ window.onload = function () {
             context.lineTo(toRight, sectionSize * x);
 
             context.moveTo(toLeft, sectionSize * x);
-            context.lineTo(toLeft, sectionSize * (x+1));
+            context.lineTo(toLeft, sectionSize * (x + 1));
 
             context.moveTo(toRight, sectionSize * x);
-            context.lineTo(toRight, sectionSize * (x+1));
-            
+            context.lineTo(toRight, sectionSize * (x + 1));
+
         }
 
         context.stroke();
@@ -90,7 +90,7 @@ window.onload = function () {
         for (var i = 0; i <= longestLineCells; i++) {
             gameMatrix.vertical.push(Array(longestLineCells).fill(true));
         }
-        
+
         for (var i = 0; i < longestLineCells; i++) {
             if (i < longestLineCells / 2) {
                 for (var j = 5 - i; j < 5 + i; j++) {
@@ -112,13 +112,13 @@ window.onload = function () {
                 }
             } else {
                 for (var j = 5 - (longestLineCells - i - 1); j < 5 + (longestLineCells - i - 1); j++) {
-            
+
                     gameMatrix.vertical[j][i] = false;
                 }
             }
         }
 
-        
+
     }
     initGameMatrix(gameMatrix);
     console.log(gameMatrix);
@@ -153,45 +153,69 @@ window.onload = function () {
 
         context.stroke();
     }
+    var xPlayerScore = 0;
+    var oPlayerScore = 0;
+
+    function increaseScore() {
+        if (isXPlayer) {
+            xPlayerScore++;
+        } else {
+            oPlayerScore++;
+        }
+    }
 
     var isXPlayer = true;
     var playerColor = "#f1be32";
-    drawX(0, 0);
-    
+    var currentPlayerDraw = drawX;
+    currentPlayerDraw(0, 0);
+
     function changePlayer() {
         isXPlayer = !isXPlayer;
         playerColor = isXPlayer ? "#f1be32" : "#01bBC2";
         context.clearRect(0, 0, sectionSize, sectionSize);
         if (isXPlayer) {
-            drawX(0, 0);
+            currentPlayerDraw = drawX;
         } else {
-            drawO(0, 0);
+            currentPlayerDraw = drawO;
         }
+        currentPlayerDraw(0, 0);
     }
-    
-    // takeVertical(1, 4);
-    // drawX(0, sectionSize * 4);
-    // changePlayer();
 
-    // takeHorizontal(4, 1);
-    // drawO(sectionSize * 4, 1);
-    // changePlayer();
+    takeVertical(1, 4);
+    drawX(0, sectionSize * 4);
+    changePlayer();
 
-    // takeVertical(8, 4);
-    // drawX(sectionSize * 8, sectionSize * 4);
-    // changePlayer();
+    takeHorizontal(4, 1);
+    drawO(sectionSize * 4, 1);
+    changePlayer();
 
-    // takeHorizontal(4, 8);
-    // drawO(sectionSize * 4, sectionSize * 8);
-    // changePlayer();
+    takeVertical(8, 4);
+    drawX(sectionSize * 8, sectionSize * 4);
+    changePlayer();
+
+    takeHorizontal(4, 8);
+    drawO(sectionSize * 4, sectionSize * 8);
+    changePlayer();
+
+    drawRhomb();
 
     function takeHorizontal(x, y) {
         if (gameMatrix.horizontal[x][y]) {
             console.log(x, y, "horizontal already taken")
             return false;
         }
-        drawLine(sectionSize * x, sectionSize * y, sectionSize * (x + 1), sectionSize * y);
+        drawLine(sectionSize * x + 2, sectionSize * y, sectionSize * (x + 1) - 2, sectionSize * y);
+        drawRhomb();
         gameMatrix.horizontal[x][y] = true;
+
+        if (gameMatrix.horizontal[x][y + 1] && gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
+            currentPlayerDraw(sectionSize * x, sectionSize * y);
+            increaseScore();
+        }
+        if (gameMatrix.horizontal[x][y - 1] && gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
+            currentPlayerDraw(sectionSize * x, sectionSize * (y - 1));
+            increaseScore();
+        }
         return true;
     }
 
@@ -201,38 +225,42 @@ window.onload = function () {
             return false;
         }
         gameMatrix.vertical[x][y] = true;
-        drawLine(sectionSize * x, sectionSize * y, sectionSize * x, sectionSize * (y + 1));
+        drawLine(sectionSize * x, sectionSize * y + 2, sectionSize * x, sectionSize * (y + 1) - 2);
+        drawRhomb();
+
+        if (gameMatrix.vertical[x + 1][y] && gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
+            currentPlayerDraw(sectionSize * x, sectionSize * y);
+            increaseScore();
+        }
+        if (gameMatrix.vertical[x - 1][y] && gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
+            currentPlayerDraw(sectionSize * (x - 1), sectionSize * y);
+            increaseScore();
+        }
         return true;
     }
 
-    onmouseup = function (e) {
-        var x = e.pageX;
-        var y = e.pageY;
-       
+    onclick = function (e) {
+        var x = e.offsetX;
+        var y = e.offsetY;
+
         var nearX = nearestBorder(x);
         var nearY = nearestBorder(y);
         var horizontal = Math.abs(x - nearX) > Math.abs(y - nearY);
         var xSection = nearX / sectionSize;
         var ySection = nearY / sectionSize;
         if (horizontal) {
-            if (x > nearX) {
-                if (!takeHorizontal(xSection, ySection)) {
-                    return;
-                }
-            } else {
-                if (!takeHorizontal(xSection - 1, ySection)) {
-                    return;
-                }
-            }  
+            if (x < nearX) {
+                xSection--;
+            }
+            if (!takeHorizontal(xSection, ySection)) {
+                return;
+            }
         } else {
-            if (y > nearY) {
-                if (!takeVertical(xSection, ySection)) {
-                    return;
-                }
-            } else {
-                if (!takeVertical(xSection, ySection - 1)) {
-                    return;
-                }
+            if (y < nearY) {
+                ySection--;
+            } 
+            if (!takeVertical(xSection, ySection)) {
+                return;
             }
         }
         console.log(gameMatrix);
@@ -241,10 +269,10 @@ window.onload = function () {
     }
 
     function nearestBorder(p) {
-        for (var i = 0; i < longestLineCells; i++) {
+        for (var i = 0; i <= longestLineCells; i++) {
             var border = sectionSize * i;
             if (p < border) {
-                if (i == longestLineCells - 1) {
+                if (i == longestLineCells) {
                     return border;
                 }
                 var prevBorder = sectionSize * (i-1);
