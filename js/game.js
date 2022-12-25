@@ -211,12 +211,65 @@ window.onload = function () {
         if (gameMatrix.horizontal[x][y + 1] && gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
             currentPlayerDraw(sectionSize * x, sectionSize * y);
             increaseScore();
+            checkNeighbours(x, y);
         }
         if (gameMatrix.horizontal[x][y - 1] && gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
             currentPlayerDraw(sectionSize * x, sectionSize * (y - 1));
             increaseScore();
+            checkNeighbours(x, y - 1);
         }
         return true;
+    }
+
+    function checkNeighbours(x, y) {
+        // upper neighbour
+        if (y > 0) {
+            if (gameMatrix.horizontal[x][y - 1]) {
+                if (gameMatrix.vertical[x][y - 1] && !gameMatrix.vertical[x + 1][y - 1]) {
+                    takeVertical(x + 1, y - 1);
+                } else if (!gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
+                    takeVertical(x, y - 1);
+                }
+            } else if (gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
+                takeHorizontal(x, y - 1);
+            }
+        }
+        // lower neighbour
+        if (y < gameMatrix.horizontal[x].lenght - 1) {
+            if (gameMatrix.horizontal[x][y + 1]) {
+                if (gameMatrix.vertical[x][y] && !gameMatrix.vertical[x + 1][y]) {
+                    takeVertical(x + 1, y);
+                } else if (!gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
+                    takeVertical(x, y);
+                }
+            } else if (gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
+                takeHorizontal(x, y + 1);
+            }
+        }
+        // left neighbour
+        if (x > 0) {
+            if (gameMatrix.vertical[x - 1][y]) {
+                if (gameMatrix.horizontal[x - 1][y] && !gameMatrix.horizontal[x - 1][y + 1]) {
+                    takeHorizontal(x - 1, y + 1);
+                } else if (!gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
+                    takeHorizontal(x - 1, y);
+                }
+            } else if (gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
+                takeVertical(x - 1, y);
+            }
+        }
+        // right neighbour
+        if (x < gameMatrix.vertical.lenght - 1) {
+            if (gameMatrix.vertical[x + 1][y]) {
+                if (gameMatrix.horizontal[x][y] && !gameMatrix.horizontal[x][y + 1]) {
+                    takeHorizontal(x, y + 1);
+                } else if (!gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
+                    takeHorizontal(x, y);
+                }
+            } else if (gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
+                takeVertical(x + 1, y);
+            }
+        }
     }
 
     function takeVertical(x, y) {
@@ -231,10 +284,12 @@ window.onload = function () {
         if (gameMatrix.vertical[x + 1][y] && gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
             currentPlayerDraw(sectionSize * x, sectionSize * y);
             increaseScore();
+            checkNeighbours(x, y);
         }
         if (gameMatrix.vertical[x - 1][y] && gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
             currentPlayerDraw(sectionSize * (x - 1), sectionSize * y);
             increaseScore();
+            checkNeighbours(x - 1, y);
         }
         return true;
     }
@@ -258,7 +313,7 @@ window.onload = function () {
         } else {
             if (y < nearY) {
                 ySection--;
-            } 
+            }
             if (!takeVertical(xSection, ySection)) {
                 return;
             }
@@ -275,7 +330,7 @@ window.onload = function () {
                 if (i == longestLineCells) {
                     return border;
                 }
-                var prevBorder = sectionSize * (i-1);
+                var prevBorder = sectionSize * (i - 1);
                 if (p - prevBorder < border - p) {
                     return prevBorder;
                 }
