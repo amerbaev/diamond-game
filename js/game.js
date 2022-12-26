@@ -294,7 +294,7 @@ window.onload = function () {
         return true;
     }
 
-    onclick = function (e) {
+    function clickFunc(e) {
         var x = e.offsetX;
         var y = e.offsetY;
 
@@ -322,6 +322,9 @@ window.onload = function () {
 
         changePlayer();
     }
+
+    addEventListener("touchend", clickFunc);
+    addEventListener("click", clickFunc);
 
     function nearestBorder(p) {
         for (var i = 0; i <= longestLineCells; i++) {
