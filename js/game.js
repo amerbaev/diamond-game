@@ -235,15 +235,15 @@ window.onload = function () {
             }
         }
         // lower neighbour
-        if (y < gameMatrix.horizontal[x].lenght - 1) {
-            if (gameMatrix.horizontal[x][y + 1]) {
-                if (gameMatrix.vertical[x][y] && !gameMatrix.vertical[x + 1][y]) {
-                    takeVertical(x + 1, y);
-                } else if (!gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
-                    takeVertical(x, y);
+        if (y < 10 - 2) {
+            if (gameMatrix.horizontal[x][y + 2]) {
+                if (gameMatrix.vertical[x][y + 1] && !gameMatrix.vertical[x + 1][y + 1]) {
+                    takeVertical(x + 1, y + 1);
+                } else if (!gameMatrix.vertical[x][y + 1] && gameMatrix.vertical[x + 1][y + 1]) {
+                    takeVertical(x, y + 1);
                 }
-            } else if (gameMatrix.vertical[x][y] && gameMatrix.vertical[x + 1][y]) {
-                takeHorizontal(x, y + 1);
+            } else if (gameMatrix.vertical[x][y + 1] && gameMatrix.vertical[x + 1][y + 1]) {
+                takeHorizontal(x, y + 2);
             }
         }
         // left neighbour
@@ -259,15 +259,15 @@ window.onload = function () {
             }
         }
         // right neighbour
-        if (x < gameMatrix.vertical.lenght - 1) {
-            if (gameMatrix.vertical[x + 1][y]) {
-                if (gameMatrix.horizontal[x][y] && !gameMatrix.horizontal[x][y + 1]) {
-                    takeHorizontal(x, y + 1);
-                } else if (!gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
-                    takeHorizontal(x, y);
+        if (x < 9 - 2) {
+            if (gameMatrix.vertical[x + 2][y]) {
+                if (gameMatrix.horizontal[x + 1][y] && !gameMatrix.horizontal[x + 1][y + 1]) {
+                    takeHorizontal(x + 1, y + 1);
+                } else if (!gameMatrix.horizontal[x + 1][y] && gameMatrix.horizontal[x + 1][y + 1]) {
+                    takeHorizontal(x + 1, y);
                 }
-            } else if (gameMatrix.horizontal[x][y] && gameMatrix.horizontal[x][y + 1]) {
-                takeVertical(x + 1, y);
+            } else if (gameMatrix.horizontal[x + 1][y] && gameMatrix.horizontal[x + 1][y + 1]) {
+                takeVertical(x + 2, y);
             }
         }
     }
