@@ -212,11 +212,12 @@ window.onload = function () {
             currentPlayerDraw(sectionSize * x, sectionSize * y);
             increaseScore();
             checkNeighbours(x, y);
-        }
-        if (gameMatrix.horizontal[x][y - 1] && gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
+        } else if (gameMatrix.horizontal[x][y - 1] && gameMatrix.vertical[x][y - 1] && gameMatrix.vertical[x + 1][y - 1]) {
             currentPlayerDraw(sectionSize * x, sectionSize * (y - 1));
             increaseScore();
             checkNeighbours(x, y - 1);
+        } else {
+            changePlayer();
         }
         return true;
     }
@@ -285,11 +286,12 @@ window.onload = function () {
             currentPlayerDraw(sectionSize * x, sectionSize * y);
             increaseScore();
             checkNeighbours(x, y);
-        }
-        if (gameMatrix.vertical[x - 1][y] && gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
+        } else if (gameMatrix.vertical[x - 1][y] && gameMatrix.horizontal[x - 1][y] && gameMatrix.horizontal[x - 1][y + 1]) {
             currentPlayerDraw(sectionSize * (x - 1), sectionSize * y);
             increaseScore();
             checkNeighbours(x - 1, y);
+        } else {
+            changePlayer();
         }
         return true;
     }
@@ -319,8 +321,6 @@ window.onload = function () {
             }
         }
         console.log(gameMatrix);
-
-        changePlayer();
     }
 
     addEventListener("touchend", clickFunc);
